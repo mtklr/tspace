@@ -26,6 +26,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <signal.h>
 
 #define NUMBER_OF_STARS 100
 
