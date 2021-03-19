@@ -44,6 +44,8 @@ unsigned int centerx, centery;
 int bgcolor = -1;
 int color_flag = 0;
 int delay = 50;
+float xview = 1024.0;
+float yview = 1024.0;
 
 void resize_win(int sig) {
 	endwin();
@@ -74,8 +76,8 @@ void init_star(STAR* star, int i)
     star->xpos = -10.0 + (20.0 * (rand()/(RAND_MAX+1.0)));
     star->ypos = -10.0 + (20.0 * (rand()/(RAND_MAX+1.0)));
 
-    star->xpos *= 1024.0; /* change viewpoint */
-    star->ypos *= 1024.0;
+    star->xpos *= xview; /* change viewpoint */
+    star->ypos *= yview;
 
     star->zpos = i;
     star->speed = 2 + (int)(2.0 * (rand()/(RAND_MAX+1.0)));
@@ -167,7 +169,7 @@ int main(int argc, char* argv[])
     char *twotf[4] = { "WAY", "OF", "THE", "FUTURE" };
     char *starch = "...";
 
-    while ((ch = getopt(argc, argv, ":Bbcd:fgwz")) != -1) {
+    while ((ch = getopt(argc, argv, ":Bbcd:fgwx:y:z")) != -1) {
         switch (ch) {
 		case 'B':
 			bgcolor = 16;
@@ -193,12 +195,24 @@ int main(int argc, char* argv[])
             case 'w':
                 twotf_flag = 1;
                 break;
+            case 'x':
+                xview = atof(optarg);
+                if (xview < 0 || xview > 1024 || !isdigit(*optarg)) {
+                    xview = 1024.0;
+                }
+                break;
+            case 'y':
+                yview = atof(optarg);
+                if (yview < 0 || yview > 1024 || !isdigit(*optarg)) {
+                    yview = 1024.0;
+                }
+                break;
             case 'z':
                 starch = ".+*";
                 break;
             case '?':
             default:
-                printf("usage: %s [-d 1..100] [-Bbcfg] [-z] [string]\n", argv[0]);
+                printf("usage: %s [-d 1..100] [-Bbcfg] [-x|-y 1..1024] [-z] [string]\n", argv[0]);
                 exit(1);
         }
     }
