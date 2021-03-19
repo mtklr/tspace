@@ -160,7 +160,7 @@ void init()
 
 int main(int argc, char* argv[])
 {
-    unsigned int tempx, tempy;
+    int tempx, tempy;
     int i;
     int ch;
     bool twotf_flag = 0;
